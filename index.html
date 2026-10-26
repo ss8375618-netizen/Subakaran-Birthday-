@@ -1,0 +1,480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<meta name="theme-color" content="#f6ecdc" />
+<title>A Birthday Letter for Subakaran | From Gomu</title>
+<style>
+  :root{
+    --cream:#f7efdf; --paper:#fff9ee; --burgundy:#741f35; --wine:#4a1426;
+    --gold:#b58b45; --ink:#3b2a29; --rose:#d9a5a1; --muted:#8b7770;
+  }
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;background:var(--cream);color:var(--ink);font-family:Georgia,'Times New Roman',serif;overflow-x:hidden}
+  button,input{font:inherit}
+  button{cursor:pointer}
+  .grain{position:fixed;inset:0;pointer-events:none;opacity:.12;z-index:10;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E")}
+  .hero{min-height:100svh;display:grid;place-items:center;padding:30px 18px;position:relative;isolation:isolate;background:radial-gradient(ellipse at top,#fff9ed 0%,#f5e8d4 65%,#ead7bd 100%)}
+  .hero:before,.hero:after{content:"";position:absolute;width:220px;height:220px;border:1px solid #b58b4566;border-radius:50%;z-index:-1}
+  .hero:before{top:-100px;left:-90px}.hero:after{bottom:-110px;right:-80px}
+  .hero-inner{width:min(720px,100%);text-align:center}
+  .eyebrow{letter-spacing:.24em;text-transform:uppercase;font:11px/1.8 Arial,sans-serif;color:var(--gold)}
+  h1,h2,h3,p{margin-top:0}
+  .hero h1{font-size:clamp(2.6rem,8vw,5.5rem);font-weight:normal;line-height:.98;color:var(--wine);margin:16px 0}
+  .hero h1 em{font-weight:normal;color:var(--burgundy)}
+  .subtitle{font-size:clamp(1rem,2.6vw,1.2rem);color:#795d55;line-height:1.8}
+  .ornament{display:flex;align-items:center;justify-content:center;gap:12px;color:var(--gold);margin:20px auto}
+  .ornament:before,.ornament:after{content:"";height:1px;width:68px;background:linear-gradient(90deg,transparent,var(--gold))}
+  .ornament:after{transform:scaleX(-1)}
+  .envelope-wrap{margin:30px auto 18px;width:min(340px,84vw);height:220px;position:relative;perspective:900px;filter:drop-shadow(0 18px 22px #4a14261c)}
+  .envelope{position:absolute;inset:28px 0 0;background:#e8cda9;border-radius:5px;overflow:visible}
+  .envelope:before{content:"";position:absolute;inset:0;background:linear-gradient(145deg,#f4dfbf,#d5b184);clip-path:polygon(0 0,50% 56%,100% 0,100% 100%,0 100%);z-index:3}
+  .flap{position:absolute;inset:0 0 auto;height:125px;background:#d6b487;clip-path:polygon(0 0,100% 0,50% 100%);transform-origin:top;transition:transform 1s ease;z-index:5}
+  .letter-peek{position:absolute;left:8%;right:8%;bottom:14px;height:155px;background:var(--paper);padding:20px 12px;color:var(--burgundy);font-style:italic;z-index:2;transition:transform 1s ease;box-shadow:0 2px 10px #4a142622}
+  .seal{position:absolute;left:50%;top:82px;transform:translateX(-50%);width:48px;height:48px;border-radius:50%;background:var(--burgundy);color:#f7dfad;border:2px solid #a96d46;z-index:7;display:grid;place-items:center;font-size:23px;box-shadow:0 3px 8px #4a142633;transition:opacity .3s}
+  .envelope.open .flap{transform:rotateX(180deg);z-index:1}
+  .envelope.open .letter-peek{transform:translateY(-100px);z-index:6}
+  .envelope.open .seal{opacity:0}
+  .btn{border:0;border-radius:999px;padding:14px 23px;background:var(--burgundy);color:#fff7e8;letter-spacing:.04em;box-shadow:0 8px 18px #741f3526;transition:transform .2s,background .2s}
+  .btn:hover{transform:translateY(-2px);background:var(--wine)}
+  .btn.secondary{background:transparent;color:var(--burgundy);border:1px solid #b58b4580;box-shadow:none}
+  .small-note{font:12px/1.7 Arial,sans-serif;color:var(--muted);margin:13px 0 0}
+  .section{padding:86px 18px;position:relative}
+  .section-inner{width:min(850px,100%);margin:auto}
+  .section-heading{text-align:center;margin-bottom:32px}
+  .section-heading h2{font-size:clamp(2rem,5vw,3.4rem);font-weight:normal;color:var(--wine);margin:10px 0}
+  .section-heading p{color:var(--muted);line-height:1.7}
+  .letter-section{display:none;background:#efe0c8}
+  .letter-section.show{display:block;animation:fadeUp .9s both}
+  .letter-card{position:relative;background:var(--paper);padding:clamp(25px,6vw,60px);border:1px solid #c7a76d88;box-shadow:0 22px 60px #4a142612}
+  .letter-card:before{content:"";position:absolute;inset:10px;border:1px solid #b58b4545;pointer-events:none}
+  .letter-top{text-align:center;color:var(--gold);font-size:25px;margin-bottom:25px}
+  .letter-card h2{text-align:center;color:var(--burgundy);font-size:clamp(1.8rem,5vw,2.8rem);font-weight:normal;line-height:1.2;margin-bottom:28px}
+  .letter-body{font-size:clamp(1rem,2.4vw,1.14rem);line-height:2;color:#493635;white-space:normal}
+  .letter-body p{margin-bottom:18px}
+  .signature{font-style:italic;color:var(--burgundy);font-size:1.4rem;text-align:right;margin-top:30px}
+  .divider{height:1px;width:100px;background:var(--gold);margin:25px auto}
+  .gallery-section{background:#f8f0e2}
+  .gallery-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+  .photo-slot{min-height:230px;border:1px dashed #b58b45;background:linear-gradient(145deg,#fff9ef,#ead7bd);display:flex;align-items:center;justify-content:center;text-align:center;padding:12px;position:relative;overflow:hidden}
+  .photo-slot img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:none}
+  .photo-slot .slot-label{font-size:1rem;color:#8a6d56;line-height:1.6}
+  .photo-slot .slot-label span{display:block;font-size:28px;margin-bottom:8px}
+  .photo-slot.filled img{display:block}
+  .photo-slot.filled .slot-label{display:none}
+  .upload-row{text-align:center;margin-top:24px}
+  .upload-label{display:inline-block;border:1px solid #b58b45;color:var(--burgundy);padding:12px 18px;border-radius:999px;cursor:pointer;font:13px Arial,sans-serif}
+  #photoUpload{display:none}
+  .birthday-section{background:var(--wine);color:#f8ead4;text-align:center;overflow:hidden}
+  .birthday-section .eyebrow{color:#dfbc79}
+  .birthday-section h2{font-size:clamp(2.4rem,7vw,5rem);font-weight:normal;line-height:1.05;margin:18px 0;color:#f9e5bc}
+  .birthday-section p{line-height:1.9;color:#f2dcca;max-width:620px;margin:0 auto 24px}
+  .cake-stage{position:relative;width:min(320px,90%);height:210px;margin:18px auto 22px;display:flex;align-items:flex-end;justify-content:center}
+  .cake{font-size:76px;display:inline-block;filter:drop-shadow(0 6px 14px #0004);animation:bob 2.4s ease-in-out infinite;position:relative;z-index:2}
+  .cake-graphic{position:absolute;bottom:12px;width:220px;height:108px;transition:transform 1s ease;z-index:3}
+  .cake-base{position:absolute;bottom:0;left:0;width:100%;height:73px;border-radius:18px 18px 24px 24px;background:linear-gradient(#f6c5cb 0 20%,#fff0d6 20% 33%,#9f3150 33% 47%,#f7d8b5 47% 100%);border:3px solid #e8b86d;box-shadow:inset 0 -8px 0 #a6425a,0 9px 15px #0003}
+  .cake-top{position:absolute;top:18px;left:0;width:100%;height:37px;border-radius:50%;background:#fff0d9;border:3px solid #e8b86d}
+  .icing-drip{position:absolute;top:41px;left:17px;width:25px;height:25px;border-radius:0 0 14px 14px;background:#fff0d9;box-shadow:42px 3px 0 #fff0d9,86px -2px 0 #fff0d9,128px 4px 0 #fff0d9,163px -1px 0 #fff0d9}
+  .cake-candles{position:absolute;top:0;left:50%;transform:translateX(-50%);display:flex;gap:15px;z-index:4}
+  .candle{width:9px;height:42px;border-radius:4px 4px 1px 1px;background:repeating-linear-gradient(135deg,#fff0d6 0 5px,#b92e50 5px 9px);position:relative}
+  .candle:before{content:"";position:absolute;width:13px;height:19px;background:radial-gradient(ellipse at 50% 70%,#fff5ae 0 22%,#ffb544 48%,#e95b37 72%,transparent 74%);top:-19px;left:-2px;filter:drop-shadow(0 0 5px #ffb544);animation:flicker .7s infinite alternate}
+  .cake-number{position:absolute;z-index:5;top:68px;left:50%;transform:translateX(-50%);font:bold 24px Georgia,serif;color:#741f35;text-shadow:0 1px #fff;transition:opacity .25s}
+  .knife{position:absolute;z-index:7;top:0;right:18px;font-size:54px;transform:rotate(-35deg) translate(0,-20px);opacity:0;transform-origin:70% 80%;pointer-events:none}
+  .cake-stage.cutting .knife{opacity:1;animation:knifeCut 1.25s ease-in-out forwards}
+  .cake-stage.cut .cake-graphic{transform:scaleX(.92)}
+  .cake-stage.cut .cake-half-left{transform:translateX(-26px) rotate(-7deg)}
+  .cake-stage.cut .cake-half-right{transform:translateX(26px) rotate(7deg)}
+  .cake-stage.cut .candle:before{opacity:0;transition:opacity .2s}
+  .cake-half-left,.cake-half-right{position:absolute;inset:0;transition:transform 1s ease}
+  .cake-half-left{clip-path:inset(0 50% 0 0)}
+  .cake-half-right{clip-path:inset(0 0 0 50%)}
+  .age-change{font-size:clamp(2.5rem,8vw,4.8rem);font-weight:normal;color:#f9e5bc;margin:0 auto 12px;display:flex;align-items:center;justify-content:center;gap:14px}
+  .age-old{opacity:.8;text-decoration:line-through;text-decoration-color:#d7b56b}
+  .age-arrow{font-size:.55em;color:#d7b56b}
+  .age-new{color:#ffe4a8;text-shadow:0 0 22px #d7b56b77;animation:agePop .8s cubic-bezier(.2,1.6,.4,1) both}
+  .wish{display:inline-block;padding:14px 20px;border:1px solid #d7b56b;border-radius:2px;color:#f9e5bc;margin-top:14px}
+  @keyframes flicker{from{transform:scale(.9) rotate(-4deg)}to{transform:scale(1.08) rotate(4deg)}}
+  @keyframes knifeCut{0%{transform:rotate(-35deg) translate(0,-25px)}45%{transform:rotate(12deg) translate(-72px,100px)}65%{transform:rotate(12deg) translate(-72px,100px)}100%{transform:rotate(-35deg) translate(0,-25px);opacity:0}}
+  @keyframes agePop{from{opacity:0;transform:scale(.45) rotate(-8deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+  .cake-stage.cut .cake-half-left,.cake-stage.cut .cake-half-right{transition-delay:.1s}
+  .final-section{background:radial-gradient(ellipse at center,#fff8ed,#ead8bd);text-align:center;min-height:65vh;display:grid;place-items:center}
+  .final-card{max-width:650px;padding:25px}
+  .final-card h2{font-size:clamp(2.2rem,7vw,4rem);font-weight:normal;color:var(--wine);line-height:1.05}
+  .final-card p{line-height:1.9;color:#795d55}
+  .heart{font-size:28px;color:var(--burgundy);animation:pulse 1.5s infinite;display:inline-block}
+  footer{text-align:center;padding:22px 15px;background:#ead8bd;color:#8a6b56;font:11px Arial,sans-serif;letter-spacing:.12em}
+  .music-toggle{position:fixed;right:16px;bottom:16px;z-index:20;width:46px;height:46px;border:1px solid #b58b45;background:#fff9ef;color:var(--burgundy);border-radius:50%;box-shadow:0 5px 20px #4a142622;display:none}
+  .music-toggle.visible{display:block}
+  .petal{position:fixed;top:-30px;z-index:15;pointer-events:none;animation:fall linear forwards;color:#9c314c}
+  .confetti{position:fixed;top:-15px;z-index:30;width:8px;height:12px;pointer-events:none;animation:fall linear forwards}
+
+  .age-stage{margin:0 auto 24px;opacity:0;transform:translateY(12px);transition:opacity .7s,transform .7s;pointer-events:none}
+  .age-stage.revealed{opacity:1;transform:translateY(0)}
+  .age-label{font:11px Arial,sans-serif;letter-spacing:.25em;text-transform:uppercase;color:#dfbc79}
+  .age-counter{display:flex;align-items:center;justify-content:center;gap:15px;font-size:clamp(2.7rem,8vw,5rem);color:#f9e5bc;line-height:1.2;margin:4px 0}
+  .age-counter #oldAge{opacity:.7;text-decoration:line-through;text-decoration-color:#d9a5a1}
+  .age-arrow{font-size:.55em;color:#dfbc79}
+  #newAge{display:inline-block;min-width:1.15em;opacity:.25;transform:scale(.7);transition:all .7s cubic-bezier(.2,.8,.2,1)}
+  .age-stage.revealed #newAge{opacity:1;transform:scale(1);text-shadow:0 0 25px #dfbc7966}
+  .age-caption{font-style:italic;color:#e9cda8;font-size:1rem}
+  .cake-scene{width:min(340px,84vw);height:205px;margin:0 auto 24px;position:relative;isolation:isolate}
+  .cake-body{position:absolute;width:220px;height:100px;left:50%;bottom:35px;transform:translateX(-50%);background:linear-gradient(90deg,#7c2840,#9f3c55 50%,#6d1d34);border-radius:12px 12px 24px 24px;box-shadow:inset 0 -10px 0 #4a1426,0 12px 18px #0003;overflow:hidden;z-index:3}
+  .cake-top{position:absolute;width:220px;height:48px;left:50%;bottom:112px;transform:translateX(-50%);border-radius:50%;background:radial-gradient(ellipse at 50% 35%,#fff5df,#e8c6a1 70%);border:4px solid #d5a96a;z-index:4}
+  .cake-plate{position:absolute;width:285px;height:25px;left:50%;bottom:23px;transform:translateX(-50%);border-radius:50%;background:linear-gradient(#f9e7c4,#c6a16a);box-shadow:0 7px 12px #0003;z-index:2}
+  .icing-drip{position:absolute;top:0;background:#f7dfbc;width:22px;height:28px;border-radius:0 0 14px 14px}
+  .drip-one{left:35px;height:36px}.drip-two{left:100px;height:24px}.drip-three{right:32px;height:32px}
+  .cake-decoration{position:absolute;left:27px;top:39px;color:#f6d9a3;font-size:24px}
+  .deco-two{left:96px;top:47px;font-size:21px}.deco-three{right:25px;left:auto;top:39px}
+  .cake-candles{position:absolute;z-index:6;left:50%;top:22px;transform:translateX(-50%);display:flex;gap:19px}
+  .candle{display:block;width:9px;height:42px;border-radius:3px;background:repeating-linear-gradient(135deg,#fff0d1 0 5px,#b58b45 5px 9px);box-shadow:0 0 0 1px #8d6438}
+  .candle i{position:absolute;width:13px;height:19px;top:-22px;margin-left:-2px;border-radius:70% 30% 65% 35%;background:radial-gradient(circle at 55% 65%,#fff8bd 0 15%,#ffc85e 35%,#e87538 70%);transform:rotate(8deg);animation:flicker .7s infinite alternate;box-shadow:0 0 14px #ffb54a99}
+  .cake-half{position:absolute;bottom:35px;width:110px;height:100px;background:linear-gradient(90deg,#9f3c55,#6d1d34);z-index:5;opacity:0;pointer-events:none}
+  .cake-half-left{left:calc(50% - 110px);border-radius:12px 0 0 24px;transform-origin:right center}
+  .cake-half-right{left:50%;border-radius:0 12px 24px 0;transform-origin:left center}
+  .cake-knife{position:absolute;z-index:7;right:20px;top:54px;font-size:48px;transform:rotate(-45deg);opacity:0}
+  .cake-scene.cut .cake-body,.cake-scene.cut .cake-top{animation:vanishCake .65s forwards}
+  .cake-scene.cut .cake-half{opacity:1}
+  .cake-scene.cut .cake-half-left{animation:cutLeft .9s .25s forwards}
+  .cake-scene.cut .cake-half-right{animation:cutRight .9s .25s forwards}
+  .cake-scene.cut .cake-knife{animation:knifeCut .55s forwards}
+  .cake-scene.cut .candle i{animation:flameOut .35s forwards}
+  @keyframes flicker{from{transform:rotate(5deg) scale(.95)}to{transform:rotate(-5deg) scale(1.08)}}
+  @keyframes vanishCake{to{opacity:0;transform:translateX(-50%) scale(.97)}}
+  @keyframes cutLeft{to{transform:translate(-24px,8px) rotate(-5deg)}}
+  @keyframes cutRight{to{transform:translate(24px,8px) rotate(5deg)}}
+  @keyframes knifeCut{0%{opacity:0;transform:translate(25px,-15px) rotate(-45deg)}35%{opacity:1}100%{opacity:0;transform:translate(-45px,55px) rotate(-45deg)}}
+  @keyframes flameOut{to{opacity:0;transform:scale(.2) translateY(-8px)}}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(20px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-9px)}}
+  @keyframes pulse{0%,100%{transform:scale(1)}50%{transform:scale(1.18)}}
+  @keyframes fall{to{transform:translate3d(var(--drift),110vh,0) rotate(650deg);opacity:.1}}
+  @media(max-width:620px){.section{padding:65px 15px}.gallery-grid{grid-template-columns:1fr 1fr;gap:9px}.photo-slot{min-height:165px}.gallery-grid .photo-slot:last-child{grid-column:1/-1;min-height:190px}.envelope-wrap{height:205px}.letter-card{padding:27px 22px}.hero h1{line-height:1.02}}
+  @media(prefers-reduced-motion:reduce){*,*:before,*:after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+  /* Personal photo gallery + cinematic lightbox */
+  .photo-slot{border:1px solid #d9b56d;border-radius:12px;cursor:zoom-in;padding:0;min-height:260px;box-shadow:0 12px 30px #4a142612;transition:transform .45s cubic-bezier(.2,.8,.2,1),box-shadow .45s;animation:memoryFloat 5s ease-in-out infinite}
+  .photo-slot:nth-child(2){animation-delay:.35s}.photo-slot:nth-child(3){animation-delay:.7s}
+  .photo-slot:hover{transform:translateY(-9px) scale(1.015);box-shadow:0 22px 45px #4a14262a}
+  .photo-slot img{display:block;transition:transform .8s cubic-bezier(.2,.8,.2,1);object-position:center}
+  .photo-slot:hover img{transform:scale(1.07)}
+  .photo-slot .slot-label{display:none}
+  .photo-hint{position:absolute;bottom:12px;right:12px;padding:7px 11px;border-radius:99px;background:#38151bd9;color:#fff0d6;font-size:12px;opacity:0;transform:translateY(8px);transition:.3s}
+  .photo-slot:hover .photo-hint,.photo-slot:focus-visible .photo-hint{opacity:1;transform:translateY(0)}
+  .lightbox{position:fixed;inset:0;z-index:9999;background:rgba(23,8,13,.94);display:flex;align-items:center;justify-content:center;padding:60px 70px;opacity:0;visibility:hidden;transition:opacity .35s,visibility .35s;backdrop-filter:blur(12px)}
+  .lightbox.open{opacity:1;visibility:visible}
+  .lightbox img{max-width:min(100%,1100px);max-height:82vh;object-fit:contain;border:2px solid #d9b56d;border-radius:8px;box-shadow:0 25px 80px #0008;animation:lightboxZoom .4s cubic-bezier(.2,.8,.2,1)}
+  .lightbox-close,.lightbox-nav{position:absolute;border:1px solid #d9b56d;background:#3d1723;color:#fff1d5;cursor:pointer;border-radius:50%;display:grid;place-items:center;transition:transform .2s,background .2s}
+  .lightbox-close{right:24px;top:22px;width:46px;height:46px;font-size:32px}
+  .lightbox-nav{top:50%;width:48px;height:48px;font-size:36px;transform:translateY(-50%)}
+  .lightbox-nav:hover,.lightbox-close:hover{background:#a8324e;transform:translateY(-50%) scale(1.08)}
+  .lightbox-close:hover{transform:scale(1.08)}
+  .lightbox-nav.prev{left:18px}.lightbox-nav.next{right:18px}
+  .lightbox-count{position:absolute;bottom:22px;color:#f9e5bc;letter-spacing:3px;font-size:12px}
+  @keyframes lightboxZoom{from{opacity:0;transform:scale(.92)}to{opacity:1;transform:scale(1)}}
+  @keyframes memoryFloat{0%,100%{translate:0 0}50%{translate:0 -5px}}
+  /* Extra reveal motion across the whole page */
+  .section-heading,.letter-card,.final-card,.age-stage,.cake-scene,.birthday-section h2,.birthday-section p,.birthday-section .btn{animation:softRise .85s both}
+  .section-heading{animation-delay:.08s}.letter-card{animation-delay:.14s}
+  .cake-scene{filter:drop-shadow(0 18px 24px #0003)}
+  .cake-scene.cut .cake-half-left{transform:translate(-34px,10px) rotate(-13deg)}
+  .cake-scene.cut .cake-half-right{transform:translate(34px,7px) rotate(13deg)}
+  .cake-scene.cut .cake-candles i{animation:blowOut .35s forwards}
+  .cake-scene.cut .cake-body{animation:cakeBounce .65s ease}
+  .cake-scene.cut .cake-knife{animation:knifeCut .8s ease-in-out forwards}
+  .cake-scene.cut .cake-half{opacity:1}
+  @keyframes softRise{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes blowOut{to{opacity:0;transform:scale(.2) translateY(-12px)}}
+  @keyframes cakeBounce{0%,100%{transform:translateY(0)}35%{transform:translateY(-12px)}65%{transform:translateY(3px)}}
+  @media(max-width:700px){.gallery-grid{grid-template-columns:1fr;gap:18px}.photo-slot{min-height:300px}.lightbox{padding:60px 14px}.lightbox-nav.prev{left:6px}.lightbox-nav.next{right:6px}.lightbox-nav{width:40px;height:40px;background:#3d1723cc}.lightbox img{max-height:75vh}}
+  @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.01ms!important}}
+
+
+  /* Gomu's Tamil birthday poem */
+  .poem-section{background:linear-gradient(145deg,#f8f0e2,#f1dfd0);overflow:hidden}
+  .poem-card{max-width:800px;margin:0 auto;position:relative;padding:clamp(26px,5vw,54px);background:linear-gradient(160deg,#fffaf1,#fff4e5);border:1px solid #c9a66a;box-shadow:0 24px 65px #4a14261a;text-align:center;border-radius:3px}
+  .poem-card:before{content:"";position:absolute;inset:10px;border:1px solid #b58b454d;pointer-events:none}
+  .poem-heart{font-size:2rem;color:var(--burgundy);animation:pulse 1.5s infinite;display:inline-block;margin-bottom:8px}
+  .poem-title{font-size:clamp(1.55rem,4.5vw,2.55rem);line-height:1.5;color:var(--burgundy);font-weight:normal;margin:0 0 22px}
+  .poem-lines{font-size:clamp(1rem,2.5vw,1.15rem);line-height:2.05;color:#543b39;text-align:center;white-space:normal}
+  .poem-lines p{margin:0 0 18px;animation:poemRise .8s both}
+  .poem-lines p:nth-child(2){animation-delay:.08s}.poem-lines p:nth-child(3){animation-delay:.16s}.poem-lines p:nth-child(4){animation-delay:.24s}.poem-lines p:nth-child(5){animation-delay:.32s}.poem-lines p:nth-child(6){animation-delay:.40s}.poem-lines p:nth-child(7){animation-delay:.48s}.poem-lines p:nth-child(8){animation-delay:.56s}.poem-lines p:nth-child(9){animation-delay:.64s}.poem-lines p:nth-child(10){animation-delay:.72s}
+  .poem-signoff{margin-top:24px;color:var(--burgundy);font-size:1.2rem;font-style:italic}
+  @keyframes poemRise{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:translateY(0)}}
+  @media(prefers-reduced-motion:reduce){.poem-lines p{animation:none}}
+
+</style>
+</head>
+<body>
+<div class="grain"></div>
+<header class="hero" id="home">
+  <div class="hero-inner">
+    <div class="eyebrow">A little letter, a lot of love</div>
+    <div class="ornament">✦ ❦ ✦</div>
+    <h1>For My <em>Favourite</em><br>Person</h1>
+    <p class="subtitle">Oru chinna letter… aana adhula en manasu full-ah irukku.</p>
+    <div class="envelope-wrap">
+      <div class="envelope" id="envelope">
+        <div class="letter-peek">To my love,<br><br>Today is all about you…</div>
+        <div class="flap"></div>
+        <div class="seal">G</div>
+      </div>
+    </div>
+    <button class="btn" id="openLetter">Open Your Letter ♡</button>
+    <p class="small-note">Best experienced with sound on · Made with love by Gomu</p>
+  </div>
+</header>
+
+<main>
+<section class="section letter-section" id="letter">
+  <div class="section-inner">
+    <div class="section-heading">
+      <div class="eyebrow">From my heart to yours</div>
+      <h2>En Uyirukku Oru Kadidham</h2>
+      <p>Not just birthday wishes… konjam love, konjam memories, neraya feelings.</p>
+    </div>
+    <article class="letter-card">
+      <div class="letter-top">❦</div>
+      <h2>Happy Birthday,<br>En Anbu Subakaran ❤️</h2>
+      <div class="letter-body">
+        <p>En chellamaana Subakaran,</p>
+        <p>Innaiku un birthday mattum illa… en life-la romba special-aana oru manushan indha ulagathukku vandha naal. Unna en life partner-ah kidaichadhu enakku kidaicha azhagaana gift. ❤️</p>
+        <p>Un kooda irukkura chinna chinna moments kooda enakku periya memories. Un sirippu, un care, nee en pakkathula irukkura andha comfort — idhellam words-la full-ah solla mudiyadhu. Sila neram naan solla marandhaalum, unna evlo love panren-nu mattum marandhudaadha.</p>
+        <p>Indha birthday-la unakku naan wish panradhu: un manasu aasai padra ella nalla vishayangalum nadakkanum. Unakku nalla health, peace, success, happiness ellame kidaikkanum. Nee edha achieve pannalum, un santhoshathula naanum share pannanum; kashtamaana naal vandhaalum un pakkathula naan irukkanum.</p>
+        <p>Life eppovume perfect-ah irukkaadhu. Aana namma rendu perum kai korthu irundha, endha naalayum serndhu face pannalaam. Unakku support-ah, unakku best friend-ah, unakku pidicha person-ah, ovvoru naalum unnoda irukka aasai padren.</p>
+        <p>Innaiku un birthday… so konjam extra smile pannu, unakku pidichadha enjoy pannu, and remember — nee enakku romba special. Indha letter-la irukkura ovvoru vaarthaiyum en manasula irundhu varradhu.</p>
+        <p><strong>Happy Birthday, my love.</strong> Un life full-ah santhosham irukkanum. Namma love innum azhagaaga valaranum. Innaikum, naalaikum, varra ovvoru naalum — unnai choose panradhu naan dhaan. 💗</p>
+      </div>
+      <div class="divider"></div>
+      <div class="signature">Endrum unnodu,<br>Un Gomu ♡</div>
+    </article>
+  </div>
+</section>
+
+
+<section class="section poem-section" id="poem">
+  <div class="section-inner">
+    <div class="section-heading">
+      <div class="eyebrow">A special poem from Gomu</div>
+      <h2>En Anbu Athaanukku ❤️</h2>
+      <p>Unakkaaga, en manasula irundhu…</p>
+    </div>
+    <article class="poem-card">
+      <div class="poem-heart">♥</div>
+      <h2 class="poem-title">❤️ என் வாழ்க்கையின் அழகான பரிசு நீ ❤️</h2>
+      <div class="poem-lines">
+        <p>என் வாழ்க்கையில் நான் பெற்ற மிகப்பெரிய பரிசு நீதானே அத்தான்… 🫶❤️</p>
+        <p>அப்பா அம்மா கொடுத்த அன்புக்குப் பிறகு, என்னை தாங்கிப் பிடிக்கும் உறவாக என் வாழ்க்கையில் வந்தவன் நீ…</p>
+        <p>என் முகம் பார்த்து என் மனதைப் புரிந்து, என் கண்ணீருக்குக் காரணம் கேட்டு, என் சந்தோஷத்தில் குழந்தையாய் மகிழ்ந்து, என்னை அன்பால் அரவணைப்பவன் நீ… 🥹💕</p>
+        <p>என் வாழ்க்கை இன்று அழகாக இருக்கிறது என்றால், அதற்குக் காரணம் நீ மட்டும்தான்… என் கவலைகள் குறைந்து, என் மனதில் நிம்மதி நிறைந்து, நான் சந்தோஷமாக வாழ்கிறேன் என்றால், அதற்குப் பின்னால் இருப்பது உன் அன்புதான்… ❤️</p>
+        <p>எனக்கு எல்லாமுமாக நீ இருக்கிறாய், என் பலமாகவும் நீ இருக்கிறாய், நான் சோர்ந்து போகும் நேரங்களில் என்னைத் தாங்கும் தூணாகவும் நீ இருக்கிறாய்…</p>
+        <p>எத்தனை பிறவிகள் எடுத்தாலும், ஒவ்வொரு பிறவியிலும் உன்னையே என் கணவனாகக் கேட்பேன்… ஏனென்றால், இந்தப் பிறவியில் உன்னைப் போல ஒரு அன்பான மனிதன் எனக்குக் கிடைத்தது என் அதிர்ஷ்டம்… 🫂❤️</p>
+        <p>இனிய பிறந்தநாள் வாழ்த்துகள் என் அத்தான்! 🎂💋</p>
+        <p>நீ எப்போதும் சந்தோஷமாக இருக்கணும், உன் கனவுகள் எல்லாம் நிஜமாகணும், உன் வாழ்க்கையில் எல்லா வெற்றிகளும் கிடைக்கணும்…</p>
+        <p>உன் கையைப் பிடித்த இந்த வாழ்க்கைப் பயணத்தில், கடைசி மூச்சு வரை உன் கூடவே உன் மனைவியாகவும், உன் தோழியாகவும், உன்னை அதிகமாக நேசிக்கும் ஒருத்தியாகவும் நான் இருக்கணும்… ❤️🧿</p>
+        <p>ஐ லவ் யூ அத்தான்… ❤️ நீ என் கணவன் மட்டுமல்ல, என் வாழ்க்கையில் கடவுள் கொடுத்த மிக அழகான வரம்! 🫶😘</p>
+      </div>
+      <div class="divider"></div>
+      <div class="poem-signoff">என்றென்றும் உன் அன்புடன்,<br>உன் Gomu ❤️</div>
+    </article>
+  </div>
+</section>
+
+<section class="section gallery-section" id="memories">
+  <div class="section-inner">
+    <div class="section-heading">
+      <div class="eyebrow">Our little world</div>
+      <h2>Namakkana Ninaivugal</h2>
+      <p>Ungaloda azhagaana memories — ovvoru photo-vaiyum click pannina perusa paarkalaam. Always together, always in love. ❤️</p>
+    </div>
+    <div class="gallery-grid">
+      <button class="photo-slot filled" type="button" aria-label="Open family photo"><img src="images/family-memory.jpg" alt="Subakaran and Gomu with their children"><div class="slot-label"><span>♡</span>Our favourite moment</div><span class="photo-hint">Tap to view ♡</span></button>
+      <button class="photo-slot filled" type="button" aria-label="Open couple photo"><img src="images/couple-memory.jpg" alt="Gomu and Subakaran together"><div class="slot-label"><span>❦</span>That beautiful smile</div><span class="photo-hint">Tap to view ♡</span></button>
+      <button class="photo-slot filled" type="button" aria-label="Open proposal memory"><img src="images/proposal-memory.jpg" alt="A special proposal memory of the couple"><div class="slot-label"><span>✧</span>Us, always</div><span class="photo-hint">Tap to view ♡</span></button>
+    </div>
+    <div class="upload-row"><p class="small-note">Made from your favourite memories, with love ♡</p></div>
+  </div>
+</section>
+
+<section class="section birthday-section" id="birthday">
+  <div class="section-inner">
+    <div class="eyebrow">Today is your day</div>
+    <div class="age-stage" id="ageStage" aria-live="polite">
+      <div class="age-label">Chapter</div>
+      <div class="age-counter"><span id="oldAge">30</span><span class="age-arrow">→</span><span id="newAge">31</span></div>
+      <div class="age-caption" id="ageCaption">A new year, a new chapter ✨</div>
+    </div>
+    <div class="cake-scene" id="cakeScene" aria-label="Birthday cake waiting to be cut">
+      <div class="cake-candles"><span class="candle"><i></i></span><span class="candle"><i></i></span><span class="candle"><i></i></span></div>
+      <div class="cake-top"></div>
+      <div class="cake-body">
+        <div class="icing-drip drip-one"></div><div class="icing-drip drip-two"></div><div class="icing-drip drip-three"></div>
+        <span class="cake-decoration">♥</span><span class="cake-decoration deco-two">✦</span><span class="cake-decoration deco-three">♥</span>
+      </div>
+      <div class="cake-plate"></div>
+      <div class="cake-half cake-half-left"></div><div class="cake-half cake-half-right"></div>
+      <div class="cake-knife">🔪</div>
+    </div>
+    <h2>Happy Birthday<br>My Love!</h2>
+    <p>Subakaran, un 31st year unakku pudhu happiness, pudhu opportunities, pudhu beautiful memories kondu varanum. Un dreams ellam nijamaaganum — naan eppovume un pakkathula iruppen.</p>
+    <button class="btn" id="celebrate">Cut the Cake 🎂</button>
+    <div><span class="wish" id="wishText">Cake cut pannalaama, Subakaran? ❤️</span></div>
+  </div>
+</section>
+
+<section class="section final-section" id="final">
+  <div class="final-card">
+    <div class="eyebrow">One last thing…</div>
+    <div class="ornament">♡</div>
+    <h2>Unna Innaikum<br>Naalaikum… Always.</h2>
+    <p>Birthday gifts ellam oru naal mudinjidum. Aana un mela irukkura en love, care, respect — idhellam ovvoru naalum pudhusa irukkum. En life-la irukkura azhagaana chapter nee dhaan.</p>
+    <p>Indha world-la evlo per irundhaalum, en heart-ku special place unakku mattum dhaan.</p>
+    <div class="heart">♥</div>
+    <p><strong>Happy Birthday, Subakaran.</strong><br>With all my love, Gomu.</p>
+    <button class="btn secondary" id="replay">Read the letter again ↺</button>
+  </div>
+</section>
+</main>
+<div class="lightbox" id="photoLightbox" aria-hidden="true">
+  <button class="lightbox-close" id="lightboxClose" aria-label="Close photo viewer">×</button>
+  <button class="lightbox-nav prev" id="lightboxPrev" aria-label="Previous photo">‹</button>
+  <img id="lightboxImage" alt="Memory enlarged">
+  <button class="lightbox-nav next" id="lightboxNext" aria-label="Next photo">›</button>
+  <div class="lightbox-count" id="lightboxCount">1 / 3</div>
+</div>
+<footer>MADE WITH LOVE · FROM GOMU TO SUBAKARAN · FOREVER & ALWAYS</footer>
+<button class="music-toggle" id="musicToggle" aria-label="Toggle romantic music" title="Toggle romantic music">♫</button>
+<script>
+  const openBtn = document.getElementById('openLetter');
+  const envelope = document.getElementById('envelope');
+  const letterSection = document.getElementById('letter');
+  const musicToggle = document.getElementById('musicToggle');
+  let audioCtx = null, musicTimer = null, musicOn = false, noteIndex = 0;
+  const melody = [261.63,329.63,392,329.63,293.66,349.23,440,349.23,261.63,329.63,392,523.25,440,392,329.63,293.66];
+
+  function playNote(freq, start, duration, volume=0.035) {
+    if (!audioCtx) return;
+    const osc = audioCtx.createOscillator(), gain = audioCtx.createGain();
+    osc.type = 'sine'; osc.frequency.value = freq;
+    gain.gain.setValueAtTime(0.0001, start);
+    gain.gain.exponentialRampToValueAtTime(volume, start + 0.08);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + duration);
+    osc.connect(gain); gain.connect(audioCtx.destination);
+    osc.start(start); osc.stop(start + duration + 0.03);
+  }
+  function startMusic(){
+    const AudioContext = window.AudioContext || window.webkitAudioContext;
+    if (!AudioContext) { alert('Audio is not supported in this browser.'); return; }
+    if (!audioCtx) audioCtx = new AudioContext();
+    audioCtx.resume();
+    musicOn = true; musicToggle.textContent = '♫'; musicToggle.title = 'Pause romantic music';
+    if (musicTimer) clearInterval(musicTimer);
+    const playPhrase = () => {
+      if (!musicOn) return;
+      const now = audioCtx.currentTime;
+      for (let i=0;i<4;i++) {
+        const f = melody[noteIndex % melody.length];
+        playNote(f, now + i*0.62, 0.55, 0.023);
+        if (i===0 || i===2) playNote(f/2, now + i*0.62, 0.72, 0.012);
+        noteIndex++;
+      }
+    };
+    playPhrase();
+    musicTimer = setInterval(playPhrase, 2480);
+  }
+  function stopMusic(){
+    musicOn = false; if(musicTimer) clearInterval(musicTimer);
+    if(audioCtx) audioCtx.suspend();
+    musicToggle.textContent = '♪'; musicToggle.title = 'Play romantic music';
+  }
+  function petals(count=18){
+    for(let i=0;i<count;i++){
+      const el=document.createElement('span'); el.className='petal'; el.textContent=['♥','✿','❀'][Math.floor(Math.random()*3)];
+      el.style.left=Math.random()*100+'vw'; el.style.fontSize=(12+Math.random()*16)+'px';
+      el.style.animationDuration=(5+Math.random()*5)+'s'; el.style.setProperty('--drift',(Math.random()*180-90)+'px');
+      document.body.appendChild(el); setTimeout(()=>el.remove(),11000);
+    }
+  }
+  function confetti(count=90){
+    const colors=['#d9b56d','#f4d9b8','#a8324e','#fff1d5','#e8a1a6'];
+    for(let i=0;i<count;i++){
+      const el=document.createElement('i'); el.className='confetti';
+      el.style.left=Math.random()*100+'vw'; el.style.background=colors[Math.floor(Math.random()*colors.length)];
+      el.style.animationDuration=(2.4+Math.random()*3)+'s'; el.style.setProperty('--drift',(Math.random()*240-120)+'px');
+      el.style.transform='rotate('+Math.random()*360+'deg)';
+      document.body.appendChild(el); setTimeout(()=>el.remove(),6000);
+    }
+  }
+  openBtn.addEventListener('click',()=>{
+    envelope.classList.add('open');
+    openBtn.textContent='Your letter is open ♡';
+    letterSection.classList.add('show');
+    musicToggle.classList.add('visible');
+    if(!musicOn) startMusic();
+    petals(22);
+    setTimeout(()=>letterSection.scrollIntoView({behavior:'smooth',block:'start'}),550);
+  });
+  musicToggle.addEventListener('click',()=>musicOn?stopMusic():startMusic());
+  let cakeCut = false;
+  document.getElementById('celebrate').addEventListener('click',()=>{
+    const scene = document.getElementById('cakeScene');
+    const ageStage = document.getElementById('ageStage');
+    const button = document.getElementById('celebrate');
+    const wish = document.getElementById('wishText');
+    if (!cakeCut) {
+      cakeCut = true;
+      scene.classList.add('cut');
+      button.textContent = 'Celebrate 31! 🎉';
+      wish.textContent = 'Yay! Cake cut aachu! Happy Birthday, Subakaran! ❤️';
+      setTimeout(()=>{
+        ageStage.classList.add('revealed');
+        confetti(120); petals(24);
+        wish.textContent = '30-ku bye… 31-ku welcome! Iniya Pirandhanaal Vaazhthukkal, Subakaran! 💖';
+      }, 650);
+    } else {
+      confetti(120); petals(18);
+      wish.textContent = 'Welcome to 31, Subakaran! Un life full-ah love & happiness irukkattum! ❤️';
+    }
+  });
+  document.getElementById('replay').addEventListener('click',()=>{
+    envelope.classList.remove('open'); openBtn.textContent='Open Your Letter ♡';
+    letterSection.classList.remove('show');
+    document.getElementById('home').scrollIntoView({behavior:'smooth'});
+  });
+
+  // Click any memory to open an animated full-screen photo viewer.
+  const photoSlots = [...document.querySelectorAll('.photo-slot')];
+  const lightbox = document.getElementById('photoLightbox');
+  const lightboxImage = document.getElementById('lightboxImage');
+  const lightboxCount = document.getElementById('lightboxCount');
+  let activePhoto = 0;
+  function showPhoto(index){
+    activePhoto = (index + photoSlots.length) % photoSlots.length;
+    lightboxImage.src = photoSlots[activePhoto].querySelector('img').src;
+    lightboxImage.alt = photoSlots[activePhoto].querySelector('img').alt;
+    lightboxCount.textContent = `${activePhoto+1} / ${photoSlots.length}`;
+  }
+  function openPhoto(index){
+    showPhoto(index); lightbox.classList.add('open'); lightbox.setAttribute('aria-hidden','false');
+    document.body.style.overflow='hidden';
+  }
+  function closePhoto(){
+    lightbox.classList.remove('open'); lightbox.setAttribute('aria-hidden','true');
+    document.body.style.overflow='';
+  }
+  photoSlots.forEach((slot,index)=>slot.addEventListener('click',()=>openPhoto(index)));
+  document.getElementById('lightboxClose').addEventListener('click',closePhoto);
+  document.getElementById('lightboxPrev').addEventListener('click',()=>showPhoto(activePhoto-1));
+  document.getElementById('lightboxNext').addEventListener('click',()=>showPhoto(activePhoto+1));
+  lightbox.addEventListener('click',e=>{if(e.target===lightbox)closePhoto();});
+  document.addEventListener('keydown',e=>{
+    if(!lightbox.classList.contains('open'))return;
+    if(e.key==='Escape')closePhoto();
+    if(e.key==='ArrowLeft')showPhoto(activePhoto-1);
+    if(e.key==='ArrowRight')showPhoto(activePhoto+1);
+  });
+
+</script>
+</body>
+</html>
